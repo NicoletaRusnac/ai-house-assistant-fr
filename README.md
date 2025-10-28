@@ -81,19 +81,17 @@ python3 -m pip install -r requirements.txt
 
 
 <div style="position:relative; left:0; margin:20px 0;">
-<p>ai-house-assistant-fr/
+<p>ai-house-assistant-fr/</p>
     <img src="assets/image.png" 
          alt="project structure files" 
-         style="position:relative; left:0; width:80%; max-width:800px; height:auto; display:block; box-sizing:border-box;">
-</p>
+         style="position:relative; left:0; width:55%; max-width:800px; height:auto; display:block; box-sizing:border-box;">
 </div>
 
 <div style="position:relative; left:0; margin:20px 0;">
-<p>Auto-generated files (not in repo):
+<p>Auto-generated files (not in repo): </p>
     <img src="assets/image-1.png" 
          alt="project structure files" 
-         style="position:relative; left:0; width:65%; max-width:800px; height:auto; display:block; box-sizing:border-box;">
-</p>
+         style="position:relative; left:0; width:45%; max-width:800px; height:auto; display:block; box-sizing:border-box;">
 </div>
 
 ## 📖 Usage Guide
