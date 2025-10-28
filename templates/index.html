@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel - AI House Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Sentinel</h1>
+        <h2>AI House Assistant</h2>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Latest Recognized Person -->
+        <section class="latest-person">
+            <h3>Latest Recognized Person</h3>
+            <div class="person-card">
+                <p id="latest">{{ latest_person | default("None") }}</p>
+            </div>
+        </section>
+
+        <!-- Logbook and Controls Combined -->
+        <section class="logbook-controls">
+            <h3>Visitor Logbook & Controls</h3>
+            <!-- Voice Settings -->
+            <div class="voice-control">
+                <form method="POST">
+                    <label for="voice">Voice Notifications:</label>
+                    <input type="checkbox" id="voice" name="voice" {% if voice_enabled %}checked{% endif %}>
+                    <button type="submit" class="voice-btn">Update</button>
+                </form>
+            </div>
+            <!-- Scan for Face -->
+            <div class="controls">
+                <form method="POST">
+                    <button type="submit" name="scan" value="scan" class="scan-btn">Scan for Face</button>
+                </form>
+            </div>
+            <!-- Logbook -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if logs and logs|length > 0 %}
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log[0] | default("N/A") }}</td>
+                            <td>{{ log[1] | default("Unknown") }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2" style="text-align: center;">No logs available.</td>
+                        </tr>
+                        {% endif %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Embedded CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e2a44 0%, #2a3b5e 100%);
+            color: #d8e0e8;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #4a6fa5;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #d8e0e8;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        header h2 {
+            font-size: 1rem;
+            color: #a3bffa;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Latest Recognized Person */
+        .latest-person h3 {
+            font-size: 1.1rem;
+            color: #a3bffa;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .person-card {
+            background: #252f4a;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #4a6fa5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .person-card p {
+            font-size: 1.2rem;
+            color: #d8e0e8;
+            font-weight: 500;
+        }
+
+        .person-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Logbook and Controls Combined */
+        .logbook-controls h3 {
+            font-size: 1.1rem;
+            color: #a3bffa;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .voice-control {
+            margin-bottom: 15px;
+        }
+
+        .voice-control label {
+            font-size: 1rem;
+            color: #d8e0e8;
+            margin-right: 8px;
+        }
+
+        .voice-control input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        .voice-btn {
+            background: #4a6fa5;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .voice-btn:hover {
+            background: #7289da;
+        }
+
+        .controls {
+            margin-bottom: 15px;
+        }
+
+        .scan-btn {
+            background: #4a6fa5;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .scan-btn:hover {
+            background: #7289da;
+        }
+
+        .logbook-controls table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #252f4a;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logbook-controls th, .logbook-controls td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #4a6fa5;
+        }
+
+        .logbook-controls th {
+            background: #4a6fa5;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .logbook-controls td {
+            color: #d8e0e8;
+        }
+
+        .logbook-controls tr:last-child td {
+            border-bottom: none;
+        }
+
+        .logbook-controls tr:hover {
+            background: rgba(74, 111, 165, 0.1);
+        }
+    </style>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        {% if trigger_speech %}
+        console.log("Triggering TTS: {{ trigger_speech }}");
+        const utterance = new SpeechSynthesisUtterance("{{ trigger_speech }}");
+        utterance.onend = () => console.log("TTS finished playing");
+        utterance.onerror = (event) => console.error("TTS error:", event);
+        window.speechSynthesis.speak(utterance);
+        {% else %}
+        console.log("No TTS to trigger.");
+        {% endif %}
+    </script>
+</body>
+</html>
